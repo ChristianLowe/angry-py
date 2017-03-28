@@ -5,10 +5,15 @@ serverPort = 12000
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 
-message = bytes(input('Input sentence: '), 'UTF-8')
-clientSocket.sendto(message, (serverAddress, serverPort))
+while True:
+    message = bytes(input('Input sentence: '), 'UTF-8')
 
-serverMessage, serverAddress = clientSocket.recvfrom(2048)
+    clientSocket.sendto(message, (serverAddress, serverPort))
 
-print(serverMessage.decode('UTF-8'))
+    serverMessage, _ = clientSocket.recvfrom(2048)
+    print(serverMessage.decode('UTF-8'))
+
+    if serverMessage == b'QUIT':
+        break
+
 clientSocket.close()

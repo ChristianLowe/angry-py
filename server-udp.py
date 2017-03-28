@@ -10,3 +10,8 @@ print("Server Ready")
 while True:
     message, clientAddress = serverSocket.recvfrom(2048)
     serverSocket.sendto(message.upper(), clientAddress)
+
+    if message.upper() == b'QUIT':
+        break
+
+serverSocket.close()

@@ -7,10 +7,15 @@ serverSocket.bind(('', serverPort))
 serverSocket.listen(1)
 
 print("Server Ready")
+connection, clientAddress = serverSocket.accept()
 
 while True:
-    connection, clientAddress = serverSocket.accept()
+    messageBuffer = connection.recv(2048).upper()
 
-    messageBuffer = connection.recv(2048)
-    connection.send(messageBuffer.upper())
-    connection.close()
+    connection.send(messageBuffer)
+
+    if messageBuffer == b'QUIT':
+        break
+
+connection.close()
+serverSocket.close()

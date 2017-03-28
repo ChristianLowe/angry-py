@@ -6,10 +6,15 @@ serverPort = 12000
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverAddress, serverPort))
 
-message = bytes(input('Input sentence: '), 'UTF-8')
-clientSocket.send(message)
+while True:
+    message = bytes(input('Input sentence (or quit): '), 'UTF-8')
 
-serverMessage = clientSocket.recv(2048)
+    clientSocket.send(message)
+    
+    serverMessage = clientSocket.recv(2048).decode('UTF-8')
+    print(serverMessage)
 
-print(serverMessage.decode('UTF-8'))
+    if serverMessage == 'QUIT':
+        break
+
 clientSocket.close()
